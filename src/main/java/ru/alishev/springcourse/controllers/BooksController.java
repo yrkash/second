@@ -1,6 +1,7 @@
 package ru.alishev.springcourse.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,8 +21,6 @@ public class BooksController {
     private final PeopleService peopleService;
     private final BooksService booksService;
 
-//    private final BookDAO bookDAO;
-//    private final PersonDAO personDAO;
 
     @Autowired
     public BooksController(PeopleService peopleService, BooksService booksService) {
@@ -30,8 +29,28 @@ public class BooksController {
     }
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String index(Model model,
+                        @RequestParam(value = "sortByYear", defaultValue = "false") Boolean sortByYear,
+                        @RequestParam(value = "page", defaultValue = "0" , required = false) int page,
+                        @RequestParam(value = "books_per_page", defaultValue = "0", required = false) int booksPerPage) {
+        if (sortByYear == false && booksPerPage == 0) {
+            System.out.println("Обычный вывод");
+            model.addAttribute("books", booksService.findAll());
+
+        }
+        if (sortByYear && booksPerPage == 0) {
+            System.out.println("Только сортировка");
+            model.addAttribute("books", booksService.findAll("year"));
+        }
+        if (sortByYear == false && booksPerPage != 0) {
+            System.out.println("Только пагинация");
+            model.addAttribute("books", booksService.findAll(page, booksPerPage));
+        }
+        if (sortByYear && booksPerPage != 0) {
+            System.out.println("Combo");
+            model.addAttribute("books", booksService.findAll(page, booksPerPage, "year"));
+        }
+
         return "books/index";
     }
 

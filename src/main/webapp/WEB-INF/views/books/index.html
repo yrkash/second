@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
@@ -13,6 +13,23 @@
 
 <br/>
 <hr/>
+
+<form th:method="GET" th:action="@{/books}">
+    Page
+    <input type="text" th:name="page" th:value="0"/>
+    BooksPerPage
+    <select th:name="books_per_page">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="0">без пагинации</option>
+    </select>
+    Sorted
+    <input type="text" th:name="sortByYear"/>
+    <input type="submit" value="Вывести"/>
+</form>
+
 
 <a href="/books/new">Добавить книгу</a>
 
