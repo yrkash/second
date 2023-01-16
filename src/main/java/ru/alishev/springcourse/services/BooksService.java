@@ -86,11 +86,11 @@ public class BooksService {
         }
     }
 
-    /*public List<Book> findByName(String title) {
+    public List<Book> findByName(String title) {
         //probably business logic in this method
-        return booksRepository.findByTitle(title);
+        return booksRepository.findByTitleStartingWith(title);
     }
-*/
+
     /*public List<Book> findByOwner(Person owner) {
         return booksRepository.findByOwner(owner);
     }*/

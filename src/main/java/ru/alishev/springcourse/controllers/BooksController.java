@@ -75,6 +75,26 @@ public class BooksController {
         return "books/new";
     }
 
+    @GetMapping("/search")
+    public String search(Model model,
+                         @RequestParam(value = "title", required = false) String title) {
+//        model.addAttribute("book", booksService.findByName(title));
+        if (title != null && booksService.findByName(title).size() > 0) {
+            Book book = booksService.findByName(title).get(0);
+            model.addAttribute("book", book);
+            Optional<Person> bookOwner = Optional.ofNullable(booksService.findByIdFetchBook(book.getId()));
+
+//        model.addAttribute("people", peopleService.findAll());
+            if (bookOwner.isPresent()) {
+                model.addAttribute("owner", bookOwner.get());
+            } else {
+                model.addAttribute("message", "Книга свободна");
+            }
+        }
+        return "/books/search";
+    }
+
+
     @PostMapping()
     public String create(@ModelAttribute("book") @Valid Book Book,
                          BindingResult bindingResult) {
