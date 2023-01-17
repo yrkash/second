@@ -3,6 +3,12 @@ package ru.alishev.springcourse.models;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 @Entity
 @Table(name = "Book")
@@ -25,9 +31,16 @@ public class Book {
     @Column(name = "year")
     private int year;
 
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
+    @Transient
+    public boolean isExpired;
 
     public Book() {
     }
@@ -70,5 +83,24 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public boolean isExpired() {
+        long elapsedMs = new Date().getTime() - getDate().getTime();
+        int days = (int) (elapsedMs / 86400000);
+
+        return days > 10;
+    }
+
+    public void setExpired(boolean expired) {
+        isExpired = expired;
     }
 }

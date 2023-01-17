@@ -9,6 +9,7 @@ import ru.alishev.springcourse.models.Book;
 import ru.alishev.springcourse.models.Person;
 import ru.alishev.springcourse.repositories.BooksRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,6 +73,7 @@ public class BooksService {
         Optional<Book> foundBook = booksRepository.findById(id);
         if (foundBook.isPresent()) {
             foundBook.get().setOwner(null);
+            foundBook.get().setDate(null);
             booksRepository.save(foundBook.get());
         }
     }
@@ -82,6 +84,7 @@ public class BooksService {
         Optional<Book> foundBook = booksRepository.findById(id);
         if (foundBook.isPresent()) {
             foundBook.get().setOwner(selectedPerson);
+            foundBook.get().setDate(new Date());
             booksRepository.save(foundBook.get());
         }
     }

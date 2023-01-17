@@ -26,14 +26,6 @@ public class Person {
     @Column(name = "full_name")
     private String name;
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
     @Min(value = 1900, message = "Год рождения должен быть больше, чем 1900")
     @Column(name = "year_of_birth")
     private int year;
@@ -68,4 +60,13 @@ public class Person {
     public void setYear(int year) {
         this.year = year;
     }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
 }
